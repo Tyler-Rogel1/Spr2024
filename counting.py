@@ -1,7 +1,5 @@
 #Returns sorted list  
-
-A = [7,0,5,0,1,2,2,4]
-def countingSort(A):
+def CountingSort(A):
     F=[0]*len(A)
     for v in A:
         F[v]+=1
@@ -12,4 +10,3 @@ def countingSort(A):
         for j in range(reps):
             sorted_list.append(num)
     return sorted_list
-print(countingSort(A))

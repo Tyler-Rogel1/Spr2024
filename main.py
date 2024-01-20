@@ -1,3 +1,5 @@
+# Tyler Rogel 2420 Sorting 1
+
 import random
 def CreateRandomList(size):
     return [random.randint(0, size-1) for i in range(size)]

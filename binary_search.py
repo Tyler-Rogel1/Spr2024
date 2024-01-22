@@ -1,3 +1,4 @@
+# LogN
 def binarySearch(A,x):
     low = 0
     high = len(A)-1

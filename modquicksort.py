@@ -1,6 +1,8 @@
-def Quicksort(A, low, high):
+def modQuicksort(A, low, high):
     if high-low <= 0:
         return A
+    mid = (low+high)//2
+    A[low],A[mid], = A[mid], A[low]
     # one pass of quicksort
     # left most of greater thans
     lmgt = low +1
@@ -10,8 +12,8 @@ def Quicksort(A, low, high):
             lmgt += 1
     pivot = lmgt -1
     A[low], A[pivot] = A[pivot], A[low]
-    Quicksort(A, low, pivot-1)
-    Quicksort(A,pivot+1, high)
+    modQuicksort(A, low, pivot-1)
+    modQuicksort(A,pivot+1, high)
 
 A = [3, 7, 2, 1, 6, 5,0,7]
-print(Quicksort(A, 0, len(A)-1))
+print(modQuicksort(A, 0, len(A)-1))

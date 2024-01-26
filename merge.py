@@ -23,3 +23,6 @@ def MergeSort(A):
         i += 1
         j += 1
         k += 1 
+    return A
+A = [1,6,3,7,3,4,8,4]
+print(MergeSort(A))

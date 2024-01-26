@@ -1,6 +1,6 @@
 def Quicksort(A, low, high):
     if high-low <= 0:
-        return A
+        return 
     # one pass of quicksort
     # left most of greater thans
     lmgt = low +1
@@ -14,4 +14,5 @@ def Quicksort(A, low, high):
     Quicksort(A,pivot+1, high)
 
 A = [3, 7, 2, 1, 6, 5,0,7]
-print(Quicksort(A, 0, len(A)-1))
+Quicksort(A, 0, len(A)-1)
+print(A)

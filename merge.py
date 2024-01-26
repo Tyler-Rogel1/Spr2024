@@ -8,21 +8,30 @@ def MergeSort(A):
     mid = len(A)//2
     L= A[:mid]
     R= A[mid:]
-    # magically sort L and R by calling itself
-    MergeSort(L)
-    MergeSort(R)
     # merge L and R back over A
     i = 0
     j = 0
     k = 0
+    # magically sort L and R by calling itself
+    MergeSort(R)
+    MergeSort(L)
     while i < len(L) and j < len(R):
         if L[i] < R[j]:
             A[k] = L[i]
+            i+=1
         else:
-            A[k] = R[i]
-        i += 1
-        j += 1
+            A[k] = R[j]
+            j += 1
         k += 1 
-    return A
+    
+    while i < len(L):
+        A[k] = L[i]
+        i +=1
+        k +=1
+    while j < len(R):
+        A[k] = R[j]
+        j +=1
+        k +=1 
 A = [1,6,3,7,3,4,8,4]
-print(MergeSort(A))
+MergeSort(A)
+print(A)

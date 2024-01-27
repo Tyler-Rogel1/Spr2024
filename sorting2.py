@@ -1,3 +1,7 @@
+
+import random
+def CreateRandomList(size):
+    return [random.randint(0, size-1) for i in range(size)]
 # Splits list into two, sorts the smaller lists, compares whats smaller between the two lists at the same index
 # O = N * logN
 def MergeSort(A):
@@ -32,7 +36,7 @@ def MergeSort(A):
         A[k] = R[j]
         j +=1
         k +=1 
-A = [1,6,3,7,3,4,8,4]
+A = CreateRandomList(10)
 MergeSort(A)
 print("Merge Sort: \n", A)
 
@@ -51,7 +55,7 @@ def Quicksort(A, low, high):
     Quicksort(A, low, pivot-1)
     Quicksort(A,pivot+1, high)
 
-A = [3, 7, 2, 1, 6, 5,0,7]
+A = CreateRandomList(10)
 Quicksort(A, 0, len(A)-1)
 print("Quicksort: \n", A)
 
@@ -72,6 +76,6 @@ def modQuicksort(A, low, high):
     modQuicksort(A, low, pivot-1)
     modQuicksort(A,pivot+1, high)
 
-A = [4,2,1,7,4,8,4,9]
+A = CreateRandomList(10)
 modQuicksort(A, 0, len(A)-1)
 print("Modified Quicksort: \n", A)

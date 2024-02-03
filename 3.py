@@ -88,9 +88,12 @@ def Merge(A,c):
         j +=1
         k +=1 
 
-def QuicksortR(A, c, low, high):
+def QuicksortR(A, c, low, high, mod):
     if high-low <= 0:
         return 
+    if mod:
+        mid = (high+low)//2
+        A[mid], A[low] = A[low], A[mid]
     # one pass of quicksort
     # left most of greater thans
     lmgt = low +1
@@ -101,19 +104,15 @@ def QuicksortR(A, c, low, high):
             lmgt += 1
     pivot = lmgt -1
     A[low], A[pivot] = A[pivot], A[low]
-    QuicksortR(A,c, low, pivot-1)
-    QuicksortR(A,c,pivot+1, high)
+    QuicksortR(A,c, low, pivot-1, mod)
+    QuicksortR(A,c,pivot+1, high, mod)
 
 def Quick(A, c):
-    QuicksortR(A,c,0,len(A)-1)
+    QuicksortR(A,c,0,len(A)-1, False)
 
 
 def MQuick(A, c):
-    low = 0
-    high = len(A)-1
-    mid = (low+high)//2
-    A[low],A[mid], = A[mid], A[low]
-    Quick(A, c)
+    QuicksortR(A, c,0,len(A)-1,True)
 
 def Format(x):
     if x!=0:

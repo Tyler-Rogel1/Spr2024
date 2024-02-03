@@ -1,5 +1,7 @@
 # Measures number of compares vs problem size 
 import random
+import sys
+import math
 class Counter:
     def __init__(self):
         self.count = 0
@@ -17,7 +19,8 @@ def BubbleSort(A, c):
                 changing = True
     return A
 
-def CountingSort(A):
+def CountingSort(A, c):
+    c.count == len(A)
     F=[0]*len(A)
     for v in A:
         F[v]+=1
@@ -30,10 +33,12 @@ def CountingSort(A):
     return sorted_list
 
 
-def QuicksortR(A, c, low, high):
-    c.count +=1
+def QuicksortR(A, c, low, high, mod):
     if high-low <= 0:
         return 
+    if mod:
+        mid = (low+high)//2
+        A[low],A[mid]=A[mid],A[low]
     # one pass of quicksort
     # left most of greater thans
     lmgt = low +1
@@ -48,9 +53,12 @@ def QuicksortR(A, c, low, high):
     QuicksortR(A,pivot+1, high)
 
 def Quicksort(A, c):
-    QuicksortR(A,c,0,len(A)-1)
+    QuicksortR(A,c,0,len(A)-1, False)
+def ModQuicksort(A, c):
+    QuicksortR(A,c,0,len(A)-1, True)
 
 def main():
+    sys.setrecursionlimit(5000)
     sorts = [BubbleSort, ShakerSort, etc]
     for s in range(3,13):
         size = 2 ** s
@@ -64,4 +72,7 @@ def main():
             B.sort()
             c = Counter()
             sort(A,c)
-            print(c.count, end=" ")
+            if c.count == 0:
+                print("YIKES!!: count was 0")
+                return
+            print(math.log(c.count,2), end=" ")

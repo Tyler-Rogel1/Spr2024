@@ -88,10 +88,12 @@ def Merge(A,c):
         j +=1
         k +=1 
 
-def QuicksortR(A, c, low, high):
-    c.count +=1
+def QuicksortR(A, c, low, high, mod):
     if high-low <= 0:
         return 
+    if mod:
+        mid = (low+high)//2
+        A[low],A[mid]=A[mid],A[low]
     # one pass of quicksort
     # left most of greater thans
     lmgt = low +1
@@ -139,6 +141,9 @@ def main():
             A = CreateRandomList(size)      
             c = Counter()
             sort(A,c)
+            if c.count == 0:
+                print("YIKES!!: count was 0")
+                return
             print("%05.2f" % (Format(c.count)), end="    ")
         print()
     print()    
@@ -158,6 +163,9 @@ def main():
             A = CreateMostlySortedList(size)      
             c = Counter()
             sort(A,c)
+            if c.count == 0:
+                print("YIKES!!: count was 0")
+                return
             print("%05.2f" % (Format(c.count)), end="    ")
         print()
 

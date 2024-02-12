@@ -62,7 +62,7 @@ def main():
     # insert
     c = Container()
     t1 = time.time()
-    fin = open("FakeNames.txt", "r")
+    fin = open("Names/FakeNames.txt", "r")
     for line in fin:
         words = line.split()
         s = Student(words[0], words[1], words[2],words[3], words[4] )

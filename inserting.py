@@ -49,10 +49,9 @@ class Container:
     def Delete(self, dummyStudent):
         if not self.Exists(dummyStudent):
             return False
-        for i in range(len(self.A)):
-            if self.A[i] == dummyStudent:
-                self.A.pop(i) 
-                break
+        for i in self.A:
+            if i == dummyStudent:
+                self.A.remove(i) 
         return True
 
 
@@ -71,43 +70,51 @@ def main():
             print("Student", words[0], words[1], "has duplicate ssn (", words[2],") not adding")
         
     t2 = time.time()
-    print("total time is: ", (t2-t1))
+    print("total time for insert is: ", (t2-t1))
+    print()
     fin.close()
 
-    # # Traverse
-    # totalAge = 0
-    # for item in c:
-    #     age = int(item.age)
-    #     totalAge += age
-    # print("The average age is: ", totalAge/c.Size())
+    # Traverse
+    t1 = time.time()
+    totalAge = 0
+    for item in c:
+        age = int(item.age)
+        totalAge += age
+    print("The average age is: ", totalAge/c.Size())
+    t2 = time.time()
+    print("Total time for traverse is: ", (t2-t1))
+    print()
 
-    # # Delete
-    # t3 = time.time()
-    # fin = open("DeleteNames.txt", "r")
-    # for line in fin:
-    #     ssn = line.strip()
-    #     dummyStudent = Student("", "", ssn, "", "")
-    #     ok = c.Delete(dummyStudent)
-    #     if not ok:
-    #         print("Couldn't delete: ", ssn," Because not in file")
-    # t4 = time.time()
-    # print("Total time is: ", (t4-t3))
-    # fin.close()
+    # Delete
+    t3 = time.time()
+    fin = open("Names/DeleteNames.txt", "r")
+    for line in fin:
+        ssn = line.strip()
+        dummyStudent = Student("", "", ssn, "", "")
+        ok = c.Delete(dummyStudent)
+        if not ok:
+            print("Couldn't delete: ", ssn," Because not in file")
+    t4 = time.time()
+    print("Total time for delete is: ", (t4-t3))
+    print()
+    fin.close()
 
-    # # Retrieve
-    # t5 = time.time()
-    # totalAge = 0
-    # fin = open("RetrieveNames.txt", "r")
-    # for line in fin:
-    #     ssn = line.strip()
-    #     dummyStudent = Student("", "", ssn, "", "")
-    #     s2 = c.Retrieve(dummyStudent)
-    #     if s2 is not None:
-    #         totalAge += int(s2.age)
-    #     else:
-    #         print("couldn't retreive age")
-    # print("Average of retrieved ages is: ",  totalAge/c.Size())
-    # t6 = time.time()
-    # print("Total time is: ", (t6-t5))
-    # fin.close()
+    # Retrieve
+    t5 = time.time()
+    totalAge = 0
+    size = 0
+    fin = open("Names/RetrieveNames.txt", "r")
+    for line in fin:
+        ssn = line.strip()
+        dummyStudent = Student("", "", ssn, "", "")
+        s2 = c.Retrieve(dummyStudent)
+        if s2 is not None:
+            totalAge += int(s2.age)
+            size += 1
+        else:
+            print("Couldn't retrieve: ", ssn," Because not in file")
+    print("Average of retrieved ages is: ",  totalAge/size)
+    t6 = time.time()
+    print("Total time for retrieve is: ", (t6-t5))
+    fin.close()
 main()

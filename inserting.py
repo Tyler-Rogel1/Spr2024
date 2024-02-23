@@ -8,10 +8,7 @@ class Student:
         self.age = age
     
     def __eq__(self, other):
-        if self.ssn == other.ssn:
-            return True
-        else:
-            return False
+        return self.ssn == other.ssn
 
 
 

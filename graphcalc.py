@@ -8,6 +8,8 @@ from graphics import *
     
 
 def main():
+    infix = input("infix? ")
+    postfix = infixtopostfix(infix)
     win = GraphWin("My Circle", 1000, 1000)
     xlow = -10
     xhigh = 10
@@ -17,7 +19,7 @@ def main():
     res = .1
     x = xlow
     while x < xhigh:
-        y = x*x
+        y = evaluatePostFix(postfix, x)
         x2 = x + res
         y2 = x2 *x2
         l = Line(Point(x,y), Point(x2,y2))

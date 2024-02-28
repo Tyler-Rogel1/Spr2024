@@ -15,19 +15,22 @@ class Student:
 
 class Container:
     def __init__(self):
-        self.A = []
+        self.first = None
 
     def Insert(self,x):
         if self.Exists(x):
             return False
         else:
-            self.A.append(x)
+            self.x.next = self.first
+            self.first = self.x
             return True
 
     def Exists(self, x):
-        for item in self.A:
-            if item==x:
+        current = self.first
+        while current:
+            if current == x:
                 return True
+            current = current.next
         return False
 
     def Retrieve(self, x):
@@ -43,12 +46,17 @@ class Container:
         for i in self.A:
             yield i
 
-    def Delete(self, dummyStudent):
-        if not self.Exists(dummyStudent):
+    def Delete(self, item):
+        if not self.Exists(item):
             return False
-        for i in self.A:
-            if i == dummyStudent:
-                self.A.remove(i) 
+        if item == self.start.item:
+            self.start = self.start.next
+            return True
+        # self.first or self.start?
+        current = self.first
+        while not (current.next == item):
+            current = current.next
+        current.next = current.next.next
         return True
 
 

@@ -10,54 +10,116 @@ class Student:
     def __eq__(self, other):
         return self.ssn == other.ssn
 
-
-
-
-class Container:
+class Node:
+    def __init__(self, item):
+        self.item = item
+        self.nxt = None
+class Container():
     def __init__(self):
         self.first = None
+        self.size = 0
 
-    def Insert(self,x):
-        if self.Exists(x):
+    def Insert(self,item):
+        if self.Exists(item):
             return False
         else:
-            self.x.next = self.first
-            self.first = self.x
+            x = Node(item)
+            x.nxt = self.first
+            self.first = x
+            self.size +=1
             return True
 
-    def Exists(self, x):
+    def __iter__(self):
         current = self.first
-        while current:
-            if current == x:
-                return True
-            current = current.next
-        return False
-
-    def Retrieve(self, x):
-        for item in self.A:
-            if item ==x:
-                return item
-        return None
+        while current is not None:
+            yield current.item
+            current = current.nxt
+        
+    def getSize(self):
+        return self.size
 
     def Size(self):
-        return len(self.A)
-
-    def __iter__(self):
-        for i in self.A:
-            yield i
+        current = self.first
+        count = 0
+        while current:
+            count +=1 
+            current = current.nxt
+        return count
+    def Exists(self,value):
+        current = self.first
+        while current:
+            if current.item == value:
+                return True
+            current = current.nxt
+        return False
 
     def Delete(self, item):
         if not self.Exists(item):
             return False
-        if item == self.start.item:
-            self.start = self.start.next
+        if self.first.item == item:
+            self.first = self.first.nxt
             return True
-        # self.first or self.start?
+            
         current = self.first
-        while not (current.next == item):
-            current = current.next
-        current.next = current.next.next
+        while current.nxt.item != item:
+            current = current.nxt
+        current.nxt = current.nxt.nxt
         return True
+    def Retrieve(self, item):
+        current = self.first
+        while current:
+            if item == current.item:
+                return current.item
+            current = current.nxt
+        return None
+
+
+
+# class Container:
+#     def __init__(self):
+#         self.first = None
+
+#     def Insert(self,x):
+#         if self.Exists(x):
+#             return False
+#         else:
+#             self.x.next = self.first
+#             self.first = self.x
+#             return True
+
+#     def Exists(self, x):
+#         current = self.first
+#         while current:
+#             if current == x:
+#                 return True
+#             current = current.next
+#         return False
+
+#     def Retrieve(self, x):
+#         for item in self.A:
+#             if item ==x:
+#                 return item
+#         return None
+
+#     def Size(self):
+#         return len(self.A)
+
+#     def __iter__(self):
+#         for i in self.A:
+#             yield i
+
+#     def Delete(self, item):
+#         if not self.Exists(item):
+#             return False
+#         if item == self.start.item:
+#             self.start = self.start.next
+#             return True
+#         # self.first or self.start?
+#         current = self.first
+#         while not (current.next == item):
+#             current = current.next
+#         current.next = current.next.next
+#         return True
 
 
 
@@ -66,7 +128,7 @@ def main():
     # insert
     c = Container()
     t1 = time.time()
-    fin = open("Names/ShortFakeNames.txt", "r")
+    fin = open("Names/FakeNames.txt", "r")
     for line in fin:
         words = line.split()
         s = Student(words[0], words[1], words[2],words[3], words[4] )
@@ -85,14 +147,14 @@ def main():
     for item in c:
         age = int(item.age)
         totalAge += age
-    print("The average age is: ", totalAge/c.Size())
+    print("The average age is: ", totalAge/c.getSize())
     t2 = time.time()
     print("Total time for traverse is: ", (t2-t1))
     print()
 
     # Delete
     t3 = time.time()
-    fin = open("Names/ShortDeleteNames.txt", "r")
+    fin = open("Names/DeleteNames.txt", "r")
     for line in fin:
         ssn = line.strip()
         dummyStudent = Student("", "", ssn, "", "")
@@ -108,7 +170,7 @@ def main():
     t5 = time.time()
     totalAge = 0
     size = 0
-    fin = open("Names/ShortRetrieveNames.txt", "r")
+    fin = open("Names/RetrieveNames.txt", "r")
     for line in fin:
         ssn = line.strip()
         dummyStudent = Student("", "", ssn, "", "")

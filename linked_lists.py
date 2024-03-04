@@ -14,7 +14,7 @@ class Node:
     def __init__(self, item):
         self.item = item
         self.nxt = None
-class Container():
+class Container:
     def __init__(self):
         self.first = None
         self.size = 0
@@ -58,12 +58,14 @@ class Container():
             return False
         if self.first.item == item:
             self.first = self.first.nxt
+            self.size -= 1
             return True
             
         current = self.first
         while current.nxt.item != item:
             current = current.nxt
         current.nxt = current.nxt.nxt
+        self.size -= 1
         return True
     def Retrieve(self, item):
         current = self.first
@@ -72,55 +74,6 @@ class Container():
                 return current.item
             current = current.nxt
         return None
-
-
-
-# class Container:
-#     def __init__(self):
-#         self.first = None
-
-#     def Insert(self,x):
-#         if self.Exists(x):
-#             return False
-#         else:
-#             self.x.next = self.first
-#             self.first = self.x
-#             return True
-
-#     def Exists(self, x):
-#         current = self.first
-#         while current:
-#             if current == x:
-#                 return True
-#             current = current.next
-#         return False
-
-#     def Retrieve(self, x):
-#         for item in self.A:
-#             if item ==x:
-#                 return item
-#         return None
-
-#     def Size(self):
-#         return len(self.A)
-
-#     def __iter__(self):
-#         for i in self.A:
-#             yield i
-
-#     def Delete(self, item):
-#         if not self.Exists(item):
-#             return False
-#         if item == self.start.item:
-#             self.start = self.start.next
-#             return True
-#         # self.first or self.start?
-#         current = self.first
-#         while not (current.next == item):
-#             current = current.next
-#         current.next = current.next.next
-#         return True
-
 
 
 

@@ -18,14 +18,62 @@ def infixToPostfix(infix):
 # "3+4/2-5" at infix becomes "342/+5-" 
 # "x*x/(x-3)" to "xx*x3-/"
 # "1+2/(3*4-(5+6/7)+8)-9" to "1234*567/+-8+/+9-"
+
+# "x+2*(x-3+(4/x-5)*6)/7"
+# "x2x3-4x/5-6*++*7/" is a guess its actually "x2x3-4x/5-6*+*7/+"
 # 
+    postfix = ""
+    S = Stack()
+    for c in infix:
+        if c in "0123456789x":
+            postfix += c
+        if c in "+-":
+            while not S.IsEmpty() and S.top() in "+-*/":
+                postfix += S.Pop()
+            S.Push(c)
+        if c in "*/":
+            while not S.IsEmpty() and S.top() in "*/":
+                postfix += S.Pop()
+            S.Push(c)
+        if c == "(":
+            S.Push(c)
+        if c == ")":
+            while S.top() != "(":
+                postfix += S.pop()
+            S.pop()
+    while not S.IsEmpty():
+        postfix += S.pop()
     return postfix
 
 def evaluatePostfix(postfix, x):
     # "342/+5-"
     # numbers go to stack
     # divide here does last two on stack, lower operator upper format
-    return
+    # "x2+x4-/" current x = 5 -> "7"
+    S = Stack()
+    for c in postfix:
+        if c in "0123456789":
+            s.Push(float(c))
+        if c == "x":
+            s.Push(x)
+        if c == "+":
+            R = S.pop()
+            L = S.pop()
+            S.push(L + R)
+        if c == "-":
+            R = S.pop()
+            L = S.pop()
+            S.push(L - R)
+        if c == "*":
+            R = S.pop()
+            L = S.pop()
+            S.push(L * R)
+        if c == "/":
+            R = S.pop()
+            L = S.pop()
+            S.push(L / R)
+    
+    return S.pop()
 
 def main():
     infix = input("infix? ")

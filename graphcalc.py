@@ -1,10 +1,17 @@
 from graphics import *
-# class Stack:
-#     def __init__(self):
-    
-#     def push(self):
-        
-#     def pop(self):
+class Stack:
+    def __init__(self):
+        self.list = []
+    def push(self, x):
+        self.list.append(x)
+    def pop(self):
+        if not self.isEmpty():
+            return self.list.pop()
+    def isEmpty(self):
+        return len(self.list) == 0
+    def top(self):
+        if not self.isEmpty():
+            return self.list[-1]
 
 def infixToPostfix(infix):
 # infix and postfix are strings
@@ -14,7 +21,7 @@ def infixToPostfix(infix):
 # if new push is lower or equal priority by pemdas then it pops of whats under it unless protected by left paren
 # numbers go straight to postfix
 # once characters are all on postfix, pop things from stack to postfix
-# "3*4 + 5*6" at infix becomes "3 4 * 5 6 +" at postfix
+# "3*4 + 5*6" at infix becomes "3 4 * 5 6 *+" at postfix
 # "3+4/2-5" at infix becomes "342/+5-" 
 # "x*x/(x-3)" to "xx*x3-/"
 # "1+2/(3*4-(5+6/7)+8)-9" to "1234*567/+-8+/+9-"
@@ -28,20 +35,20 @@ def infixToPostfix(infix):
         if c in "0123456789x":
             postfix += c
         if c in "+-":
-            while not S.IsEmpty() and S.top() in "+-*/":
-                postfix += S.Pop()
-            S.Push(c)
+            while not S.isEmpty() and S.top() in "+-*/":
+                postfix += S.pop()
+            S.push(c)
         if c in "*/":
-            while not S.IsEmpty() and S.top() in "*/":
-                postfix += S.Pop()
-            S.Push(c)
+            while not S.isEmpty() and S.top() in "*/":
+                postfix += S.pop()
+            S.push(c)
         if c == "(":
-            S.Push(c)
+            S.push(c)
         if c == ")":
             while S.top() != "(":
                 postfix += S.pop()
             S.pop()
-    while not S.IsEmpty():
+    while not S.isEmpty():
         postfix += S.pop()
     return postfix
 
@@ -53,9 +60,9 @@ def evaluatePostfix(postfix, x):
     S = Stack()
     for c in postfix:
         if c in "0123456789":
-            s.Push(float(c))
+            S.push(float(c))
         if c == "x":
-            s.Push(x)
+            S.push(x)
         if c == "+":
             R = S.pop()
             L = S.pop()
@@ -77,22 +84,23 @@ def evaluatePostfix(postfix, x):
 
 def main():
     infix = input("infix? ")
+    print("INFIX: ", infix)
     postfix = infixToPostfix(infix)
-    win = GraphWin("My Circle", 1000, 1000)
+    print("POSTFIX: ", postfix)
+    print("EVALUATE with x = 1: ", evaluatePostfix(postfix, 1))
+    win = GraphWin("Graphing Calc", 1000, 1000)
     xlow = -10
     xhigh = 10
     ylow = -10
     yhigh = 10
     win.setCoords(xlow, ylow,xhigh,yhigh)
-    res = .1
+    res = .005
     x = xlow
     while x < xhigh:
-        y = evaluatePostFix(postfix, x)
-        x2 = x + res
-        y2 = x2 *x2
-        l = Line(Point(x,y), Point(x2,y2))
-        c = Circle(Point(x,y), 1)
-        c.draw(win)
+        y = evaluatePostfix(postfix, x)
+        # x2 = x + res
+        # y2 = x2 *x2
+        l = Point(x, y)
         l.draw(win)
         x +=res
 

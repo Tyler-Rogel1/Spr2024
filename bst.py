@@ -1,3 +1,4 @@
+# cs.usfca.edu/~galles/visualization/BTS.html
 import time
 class Student:
     def __init__(self, first, last, ssn, email, age):
@@ -11,8 +12,9 @@ class Student:
         return self.ssn == other.ssn
 
 class Node:
-    def __init__(self, item):
+    def __init__(self, item=None, nxt=None, right, left):
         self.item = item
+        self.next = nxt
         self.left = None
         self.right = None
         
@@ -38,51 +40,75 @@ class BST:
             current.right = self.InsertR(n, current.right)
         return current
     def __iter__(self):
-        current = self.first
-        while current is not None:
+        yield from self.iterR(self.root)
+
+    def iterR(self,current):
+        if current is not None:
+            yield from self.iterR(current.left)
             yield current.item
-            current = current.nxt
-        
-    def getSize(self):
-        return self.size
+            yield from self.iterR(current.right)
+
 
     def Size(self):
-        current = self.first
-        count = 0
-        while current:
-            count +=1 
-            current = current.nxt
-        return count
-    def Exists(self,value):
-        current = self.first
-        while current:
-            if current.item == value:
-                return True
-            current = current.nxt
-        return False
+        return self.sizeR(self.root)
 
+    def sizeR(self, current):
+        if current is None:
+            return 0
+        return 1 + self.sizeR(current.left) + self.sizeR(current.right)
+    def Exists(self,value):
+        return self.ExistsR(value, self.root)
+
+    def ExistsR(self, item, current)
+        if current is None:
+            return False
+        elif current.item == item:
+            return True
+        elif item < current.item:
+            self.ExistsR(item, current.left)
+        elif item > current.item:
+            self.ExistsR(item, current.right)
     def Delete(self, item):
         if not self.Exists(item):
             return False
-        if self.first.item == item:
-            self.first = self.first.nxt
-            self.size -= 1
-            return True
-            
-        current = self.first
-        while current.nxt.item != item:
-            current = current.nxt
-        current.nxt = current.nxt.nxt
-        self.size -= 1
+        self.root = self.DeleteR(item,self.root)
         return True
-    def Retrieve(self, item):
-        current = self.first
-        while current:
-            if item == current.item:
-                return current.item
-            current = current.nxt
-        return None
 
+    def DeleteR(self, item, current):
+        if item < current.item:
+            current.left = self.DeleteR(item, current.left)
+        elif item > current.item:
+            current.right = self.DeleteR(item, current.right)
+        else:
+            if not current.left and not current.right: #Leaf case
+                current = None
+            elif not current.left and current.right: #One child right
+                current = current.right
+            elif current.left and not current.right: #one child left
+                current = current.left
+            else: # two child case
+                S = current.right
+                while S.left:
+                    S = S.left
+                current.item = S.item
+                current.right = self.DeleteR(S.item, current.right)
+        return current
+            
+    def Retrieve(self, item):
+        
+
+    def Retrieve(self, item):
+        return self.RecursiveR(item, self.root)
+    
+    def RecursiveR(self, item, current):
+        if current is None:
+            return None
+        elif current.item == item:
+            return current.item
+        elif item < current.item:
+            self.RecursiveR(item, current.left)
+        elif item > current.item:
+            self.RecursiveR(item, current.right)
 
 
 def main():

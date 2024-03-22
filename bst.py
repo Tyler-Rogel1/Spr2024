@@ -9,27 +9,40 @@ class Student:
         self.age = age
     
     def __eq__(self, other):
-        return self.ssn == other.ssn
+        if self.ssn == other.ssn:
+            return True
+        return False
+    def __ne__(self, other):
+        return self.ssn != other.ssn
+
+    def __gt__(self, other):
+        return self.ssn > other.ssn
+    
+    def __ge__(self, other):
+        return self.ssn >= other.ssn
+    
+    def __lt__(self, other):
+        return self.ssn < other.ssn
+    
+    def __le__(self, other):
+        return self.ssn <= other.ssn
 
 class Node:
-    def __init__(self, item=None, nxt=None, right, left):
+    def __init__(self, item):
         self.item = item
-        self.next = nxt
         self.left = None
         self.right = None
         
 class BST:
     def __init__(self):
         self.root = None
-        self.size = 0
 
     def Insert(self,item):
         if self.Exists(item):
             return False
-        else:
-            n = Node(item)
-            self.root = self.InsertR(n, self.root)
-            return True
+        n = Node(item)
+        self.root = self.InsertR(n, self.root)
+        return True
             
     def InsertR(self, n, current):
         if current is None:
@@ -39,6 +52,7 @@ class BST:
         else:
             current.right = self.InsertR(n, current.right)
         return current
+
     def __iter__(self):
         yield from self.iterR(self.root)
 
@@ -59,15 +73,16 @@ class BST:
     def Exists(self,value):
         return self.ExistsR(value, self.root)
 
-    def ExistsR(self, item, current)
+    def ExistsR(self, item, current):
         if current is None:
             return False
         elif current.item == item:
             return True
         elif item < current.item:
-            self.ExistsR(item, current.left)
+            return self.ExistsR(item, current.left)
         elif item > current.item:
-            self.ExistsR(item, current.right)
+            return self.ExistsR(item, current.right)
+
     def Delete(self, item):
         if not self.Exists(item):
             return False
@@ -94,21 +109,20 @@ class BST:
                 current.right = self.DeleteR(S.item, current.right)
         return current
             
-    def Retrieve(self, item):
         
 
     def Retrieve(self, item):
-        return self.RecursiveR(item, self.root)
+        return self.RetrieveR(item, self.root)
     
-    def RecursiveR(self, item, current):
+    def RetrieveR(self, item, current):
         if current is None:
             return None
         elif current.item == item:
             return current.item
         elif item < current.item:
-            self.RecursiveR(item, current.left)
+            return self.RetrieveR(item, current.left)
         elif item > current.item:
-            self.RecursiveR(item, current.right)
+            return self.RetrieveR(item, current.right)
 
 
 def main():
@@ -134,7 +148,7 @@ def main():
     for item in c:
         age = int(item.age)
         totalAge += age
-    print("The average age is: ", totalAge/c.getSize())
+    print("The average age is: ", totalAge/c.Size())
     t2 = time.time()
     print("Total time for traverse is: ", (t2-t1))
     print()

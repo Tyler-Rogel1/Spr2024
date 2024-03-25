@@ -128,6 +128,7 @@ class BST:
 def main():
     # insert
     c = BST()
+    print("INSERT")
     t1 = time.time()
     fin = open("Names/FakeNames.txt", "r")
     for line in fin:
@@ -143,6 +144,7 @@ def main():
     fin.close()
 
     # Traverse
+    print("TRAVERSE")
     t1 = time.time()
     totalAge = 0
     for item in c:
@@ -154,6 +156,7 @@ def main():
     print()
 
     # Delete
+    print("DELETE")
     t3 = time.time()
     fin = open("Names/DeleteNames.txt", "r")
     for line in fin:
@@ -168,6 +171,7 @@ def main():
     fin.close()
 
     # Retrieve
+    print("RETRIEVE")
     t5 = time.time()
     totalAge = 0
     size = 0

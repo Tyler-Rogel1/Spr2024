@@ -130,13 +130,16 @@ def main():
     c = BST()
     print("INSERT")
     t1 = time.time()
-    fin = open("Names/FakeNames.txt", "r")
+    fin = open("Names/FakeNamesMedium.txt", "r")
+    insertfails = 0
     for line in fin:
         words = line.split()
         s = Student(words[0], words[1], words[2],words[3], words[4] )
         ok = c.Insert(s)
         if not ok:
-            print("Student", words[0], words[1], "has duplicate ssn (", words[2],") not adding")
+            insertfails += 1
+            # print("Student", words[0], words[1], "has duplicate ssn (", words[2],") not adding")
+    print("Insert fails: ", insertfails)
         
     t2 = time.time()
     print("total time for insert is: ", (t2-t1))
@@ -158,13 +161,16 @@ def main():
     # Delete
     print("DELETE")
     t3 = time.time()
-    fin = open("Names/DeleteNames.txt", "r")
+    fin = open("Names/DeleteNamesMedium.txt", "r")
+    dfails = 0
     for line in fin:
         ssn = line.strip()
         dummyStudent = Student("", "", ssn, "", "")
         ok = c.Delete(dummyStudent)
         if not ok:
-            print("Couldn't delete: ", ssn," Because not in file")
+            dfails += 1
+            # print("Couldn't delete: ", ssn," Because not in file")
+    print("Delete Fails: ", dfails)
     t4 = time.time()
     print("Total time for delete is: ", (t4-t3))
     print()
@@ -175,7 +181,8 @@ def main():
     t5 = time.time()
     totalAge = 0
     size = 0
-    fin = open("Names/RetrieveNames.txt", "r")
+    fin = open("Names/RetrieveNamesMedium.txt", "r")
+    rfails = 0
     for line in fin:
         ssn = line.strip()
         dummyStudent = Student("", "", ssn, "", "")
@@ -184,7 +191,9 @@ def main():
             totalAge += int(s2.age)
             size += 1
         else:
-            print("Couldn't retrieve: ", ssn," Because not in file")
+            rfails += 1
+            # print("Couldn't retrieve: ", ssn," Because not in file")
+    print("Retrieve Fails:", rfails)
     print("Average of retrieved ages is: ",  totalAge/size)
     t6 = time.time()
     print("Total time for retrieve is: ", (t6-t5))

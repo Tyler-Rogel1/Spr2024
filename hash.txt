@@ -1,0 +1,2 @@
+hash table is order 1 to insert, delete, retrieve. a constant number of steps, just a few.
+but n steps to find biggest, or after, or between two items, where bst is logN at those things.

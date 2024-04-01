@@ -4,3 +4,7 @@ DELETE
 3. if node has 0 items:
     A. Borrow from a sibling if possible, done
     B. Demote parent into a sibling, recurse back to step 2
+
+A binary tree is balanced if all nodes are balanced
+A node is balanced if its left and right subtrees are within one depth
+

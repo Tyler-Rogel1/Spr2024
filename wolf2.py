@@ -8,9 +8,8 @@ def main():
         
         # One round of all sheep dying
         forest = [True] * NUM_SHEEP
-        round_counter = [0] * NUM_SHEEP
         i = 0
-        while any(forest):
+        while sum(forest) > 1:
             # One pass of wolf
             forest[i] = False
             direction = random.choice(["L", "R"])
@@ -23,13 +22,8 @@ def main():
                 i += 1
                 if i >= NUM_SHEEP:
                     i = 0
-            # increment round counter if alive
-            for index, sheep in enumerate(forest):
-                if sheep:
-                    round_counter[index] += 1
-        longest = round_counter.index(max(round_counter))
-        # print("Longest living sheep is: ", longest, ". They lived for ", max(round_counter), " Turns.")
-        win_counter[longest] += 1
+        
+        win_counter[forest.index(True)] += 1
     print("Sheep that lived the longest the most often is: ", win_counter.index(max(win_counter)) )
     t2 = time.time()
     print("Time: ", (t2-t1))

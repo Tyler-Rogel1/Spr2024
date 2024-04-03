@@ -1,5 +1,6 @@
 # cs.usfca.edu/~galles/visualization/BTS.html
 import time
+import math
 class Student:
     def __init__(self, first, last, ssn, email, age):
         self.first = first
@@ -27,107 +28,99 @@ class Student:
     def __le__(self, other):
         return self.ssn <= other.ssn
 
+    def __hash__(self):
+        return int(self.ssn.replace("-",""))
+
 class Node:
     def __init__(self, item):
         self.item = item
         self.left = None
         self.right = None
-        
+
+def isPrime(x):
+    for i in range(2, int(math.sqrt(x))+1):
+        if x%i==0:
+            return False
+    return True
+
 class Hash:
-    def __init__(self):
-        self.root = None
+    def __init__(self, numItem):
+        slots= 2*numItem +1
+        while not isPrime(slots):
+            slots +=2
+        self.table = []
+        for i in range(slots):
+            self.table.append(None)
+
+    def Exists(self,item):
+        key = hash(item)
+        index = key%len(self.table)
+        while True:
+            if self.table[index] is None:
+                return False
+            elif self.table[index] and self.table[index] == item:
+                return True
+            index +=1
+            if index >= len(self.table):
+                index = 0
+
 
     def Insert(self,item):
-        if self.Exists(item):
+        if Exists(item):
             return False
-        n = Node(item)
-        self.root = self.InsertR(n, self.root)
-        return True
-            
-    def InsertR(self, n, current):
-        if current is None:
-            current = n
-        elif n.item < current.item:
-            current.left = self.InsertR(n, current.left)
-        else:
-            current.right = self.InsertR(n, current.right)
-        return current
+        key = hash(item)
+        index = key%len(self.table)
+        while True:
+            if self.table[index] is None or not self.table[index]:
+                self.table[index] = item
+                return True
+            index +=1
+            if index >= len(self.table):
+                index = 0
+        
 
     def __iter__(self):
-        yield from self.iterR(self.root)
+        pass
 
-    def iterR(self,current):
-        if current is not None:
-            yield from self.iterR(current.left)
-            yield current.item
-            yield from self.iterR(current.right)
 
 
     def Size(self):
         return self.sizeR(self.root)
-
-    def sizeR(self, current):
-        if current is None:
-            return 0
-        return 1 + self.sizeR(current.left) + self.sizeR(current.right)
-    def Exists(self,value):
-        return self.ExistsR(value, self.root)
-
-    def ExistsR(self, item, current):
-        if current is None:
-            return False
-        elif current.item == item:
-            return True
-        elif item < current.item:
-            return self.ExistsR(item, current.left)
-        elif item > current.item:
-            return self.ExistsR(item, current.right)
-
-    def Delete(self, item):
-        if not self.Exists(item):
-            return False
-        self.root = self.DeleteR(item,self.root)
-        return True
-
-    def DeleteR(self, item, current):
-        if item < current.item:
-            current.left = self.DeleteR(item, current.left)
-        elif item > current.item:
-            current.right = self.DeleteR(item, current.right)
-        else:
-            if not current.left and not current.right: #Leaf case
-                current = None
-            elif not current.left and current.right: #One child right
-                current = current.right
-            elif current.left and not current.right: #one child left
-                current = current.left
-            else: # two child case
-                S = current.right
-                while S.left:
-                    S = S.left
-                current.item = S.item
-                current.right = self.DeleteR(S.item, current.right)
-        return current
-            
         
 
+    def Delete(self, item):
+        if not Exists(item):
+            return False
+        key = hash(item)
+        index = key%len(self.table)
+        while True:
+            if self.table[index] is None:
+                return False
+            elif self.table[index] and self.table[index] == item:
+                self.table[index] = False
+                return True
+            index +=1
+            if index >= len(self.table):
+                index = 0
+
+           
+
     def Retrieve(self, item):
-        return self.RetrieveR(item, self.root)
-    
-    def RetrieveR(self, item, current):
-        if current is None:
-            return None
-        elif current.item == item:
-            return current.item
-        elif item < current.item:
-            return self.RetrieveR(item, current.left)
-        elif item > current.item:
-            return self.RetrieveR(item, current.right)
+        key = hash(item)
+        index = key%len(self.table)
+        while True:
+            if self.table[index] is None:
+                return False
+            elif self.table[index] and self.table[index] == item:
+                return self.table[index]
+            index +=1
+            if index >= len(self.table):
+                index = 0
 
 
 def main():
     # insert
-    c = Hash()
+    c = Hash(60000)
     print("INSERT")
     t1 = time.time()
     fin = open("Names/FakeNamesMedium.txt", "r")

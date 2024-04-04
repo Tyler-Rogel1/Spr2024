@@ -66,7 +66,7 @@ class Hash:
 
 
     def Insert(self,item):
-        if Exists(item):
+        if self.Exists(item):
             return False
         key = hash(item)
         index = key%len(self.table)
@@ -80,16 +80,22 @@ class Hash:
         
 
     def __iter__(self):
-        pass
+        for item in self.table:
+            if item is not None:
+                yield item
 
 
 
     def Size(self):
-        return self.sizeR(self.root)
+        count = 0
+        for item in self.table:
+            if item is not None:
+                count += 1
+        return count
         
 
     def Delete(self, item):
-        if not Exists(item):
+        if not self.Exists(item):
             return False
         key = hash(item)
         index = key%len(self.table)
@@ -110,7 +116,7 @@ class Hash:
         index = key%len(self.table)
         while True:
             if self.table[index] is None:
-                return False
+                return None
             elif self.table[index] and self.table[index] == item:
                 return self.table[index]
             index +=1
@@ -120,7 +126,7 @@ class Hash:
 
 def main():
     # insert
-    c = Hash(60000)
+    c = Hash(600000)
     print("INSERT")
     t1 = time.time()
     fin = open("Names/FakeNamesMedium.txt", "r")

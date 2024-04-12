@@ -36,7 +36,7 @@ class Graph:
                     From[n] = c
         return None
 def main():
-    fin = open("graph.txt", "r")
+    fin = open("graph2.txt", "r")
     vertices = int(fin.readline())
     G = Graph(vertices)
     edges = int(fin.readline())

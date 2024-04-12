@@ -24,10 +24,31 @@ class Graph:
             c = Q.pop(0)
             if c == v1:
                 # build path and return it
-                path = []
-                return path.reverse()
+                path = [c]
+                while From[c] != c:
+                    c = From[c]
+                    path.append(c)
+                path.reverse()
+                return path
             for n in self.neighbors[c]:
                 if From[n] == -1:
                     Q.append(n)
                     From[n] = c
         return None
+def main():
+    fin = open("graph.txt", "r")
+    vertices = int(fin.readline())
+    G = Graph(vertices)
+    edges = int(fin.readline())
+    for i in range(edges):
+        edge = fin.readline()
+        words = edge.split()
+        G.addEdge(int(words[0]), int(words[1]))
+    tests = int(fin.readline())
+    for i in range(tests):
+        line = fin.readline()
+        words = line.split()
+        print(G.findPath(int(words[0]), int(words[1])))
+    fin.close()
+    
+main()
